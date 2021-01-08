@@ -9,7 +9,7 @@ Requires plotly module and Python 3
 * install siege on the machine that will be hitting the target server
    * [git repo](https://github.com/JoeDog/siege)
    * [website](https://www.joedog.org/siege-home/)
-   * or just `sudo apt-geet install -y siege` on ubuntu
+   * or just `sudo apt-get install -y siege` on ubuntu
 * put targeted endpoints in 'links' subdirectory
    * in named .txt file(s)
    * full url's separated by line breaks
