@@ -10,47 +10,48 @@ from statistics import mean
 
 directory = sys.argv[1]
 
-siegelogentries = siegelogparser.main(directory)
+siegelogentries,headers = siegelogparser.main(directory)
 #print(siegelogentries)
 
 fig = go.Figure()
 
 #the below script will build a graph that tracks the response times for different types of endpoint/request.
 
-xname='resp time'
-yname='trans rate'
+xname='Resp Time'
+yname='Trans Rate'
+
+sort_by='Concurrent'
+show_labels=['Concurrent']
 
 
-#available keys are
-all_keys=['elap time', 'okay', 'failed', 'data trans', 'trans rate', 'concurrent', 'resp time', 'throughput', 'trans']
-#add them to label_keys to make that metric appear as a label on hover over a node
-label_keys=['concurrent']
 
 for vm in siegelogentries:
 	
 	this_series_x=[]
 	this_series_y=[]
 	series_labels=[]
-	
-	for timestamp in siegelogentries[vm]:
 		
-		datapoint=siegelogentries[vm][timestamp]
+	this_series=sorted(siegelogentries[vm], key=lambda i: i[sort_by],reverse=True)
+	#print(vm)
+	for datapoint in this_series:
+		
+		#print(datapoint[sort_by],datapoint[xname],datapoint[yname])
 		
 		this_series_x.append(datapoint[xname])
 		this_series_y.append(datapoint[yname])
 		
 		node_label=''
-		for k in label_keys:
+		for k in show_labels:
 			s="%s: %s\n" %(str(k),datapoint[str(k)])
 			node_label+=s
 		series_labels.append(node_label)
 		
 	fig.add_trace(go.Scatter(x=this_series_x,y=this_series_y,text=series_labels,name=vm))
 	
-	print(vm)
-	print(series_labels)
-	print(this_series_x)
-	print(this_series_y)
+	#print(vm)
+	#print(series_labels)
+	#print(this_series_x)
+	#print(this_series_y)
 
 fig.update_layout(
 xaxis=dict(title=xname),

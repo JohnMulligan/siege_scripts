@@ -36,6 +36,8 @@ siege_to_plotly_by_endpoint_class.py
 
 Shows you where the different endpoints peak out performance-wise. You'll typically see the transaction rate max out and then response times begin to climb quickly as queues form up.
 
+---------
+## Below is deprecated for the time being
 ### All metrics by timestamp
 
 siege_to_plotly_by_metric.py
