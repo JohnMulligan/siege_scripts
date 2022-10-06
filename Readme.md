@@ -1,3 +1,38 @@
+This should be revised to capture the verbose (or semi-verbose) logging.
+
+siege.sh currently outputs timestamp, number of workers, and a json dictionary.
+
+	1665023195
+	110
+	enslaved_links
+
+	{	"transactions":			        7513,
+		"availability":			      100.00,
+		"elapsed_time":			      299.88,
+		"data_transferred":		       63.53,
+		"response_time":		        4.29,
+		"transaction_rate":		       25.05,
+		"throughput":			        0.21,
+		"concurrency":			      107.48,
+		"successful_transactions":	        7513,
+		"failed_transactions":		           0,
+		"longest_transaction":		       18.38,
+		"shortest_transaction":		        0.25
+	}
+
+The dictionary does not appear in the log files, and the high and low ends are actually quite interesting against the average. You could use this to draw a crude violin graph or banded line chart. If you were really into CI stuff you could capture the truly verbose outputs. But for a normal person, the well-formatted json dump here is great, and nohup.out should replace the logs in the workflow.
+
+
+In order to reliably scale up its number of processes, siege needs
+
+* a "modern" os and a few cpu's
+* a medium-length run (5 mins seems to work)
+
+Consider folding the new siege.sh parameters in with the existing dockerstats scripts.
+
+
+
+
 # Siege scripter and results grapher
 
 This collection scripts a stress-testing of endpoints
@@ -13,6 +48,7 @@ Requires plotly module and Python 3
 * put targeted endpoints in 'links' subdirectory
    * in named .txt file(s)
    * full url's separated by line breaks
+   * and siege does POST (again: https://www.joedog.org/siege-manual/)
 * run shell script
    * set parameters in siege.sh script file
    * I advise running this in background on a vm as it can take a while
